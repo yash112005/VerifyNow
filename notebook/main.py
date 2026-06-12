@@ -4,7 +4,7 @@ import re
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
-
+import os
 nltk.download('stopwords', quiet=True)
 stop_words = set(stopwords.words('english'))
 stemmer = PorterStemmer()
@@ -12,8 +12,9 @@ stemmer = PorterStemmer()
 # Load model
 @st.cache_resource
 def load_model():
-    model = joblib.load('../model/fake_news_model.pkl')
-    vectorizer = joblib.load('../model/tfidf_vectorizer.pkl')
+    base_path = os.path.dirname(__file__)
+    model = joblib.load(os.path.join(base_path, 'fake_news_model.pkl'))
+    vectorizer = joblib.load(os.path.join(base_path, 'tfidf_vectorizer.pkl'))
     return model, vectorizer
 
 def clean_text(text):
